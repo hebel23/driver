@@ -1,0 +1,6 @@
+             cat-31356 [000] d..2  2195.588214: lock_acquire: bf0048b8 &(&rcul_list_lock)->rlock
+             cat-31356 [000] d..2  2195.588219: lock_acquired: bf0048b8 &(&rcul_list_lock)->rlock
+             cat-31356 [000] d..2  2195.588241: lock_release: bf0048b8 &(&rcul_list_lock)->rlock
+             cat-31357 [000] d..2  2195.627073: lock_acquire: bf0048b8 &(&rcul_list_lock)->rlock
+             cat-31357 [000] d..2  2195.627078: lock_acquired: bf0048b8 &(&rcul_list_lock)->rlock
+             cat-31357 [000] d..2  2195.627101: lock_release: bf0048b8 &(&rcul_list_lock)->rlock

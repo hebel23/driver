@@ -1,0 +1,65 @@
+[ 2908.301707] rcul_init()
+[ 2909.307840] irq: 65536 softirq: 0 nmi: 0 preempt: 00010000
+ [ 2909.313332] 
+ [ 2909.314821] =================================
+ [ 2909.319158] [ INFO: inconsistent lock state ]
+ [ 2909.323502] 3.6.1 #1 Tainted: G           O
+ [ 2909.327668] ---------------------------------
+ [ 2909.332007] inconsistent {HARDIRQ-ON-W} -> {IN-HARDIRQ-W} usage.
+ [ 2909.337991] lese.sh/28218 [HC1[1]:SC0[0]:HE0:SE1] takes:
+ [ 2909.343283]  (&(&rcul_list_lock)->rlock){?.+...}, at: [<bf010080>] rcul_add_messwert+0x28/0xa8 [list_rcu]
+ [ 2909.352890] {HARDIRQ-ON-W} state was registered at:
+ [ 2909.357745]   [<c006c620>] mark_lock+0x140/0x630
+ [ 2909.439047] other info that might help us debug this:
+ [ 2909.445553]  Possible unsafe locking scenario:
+ [ 2909.445553] 
+ [ 2909.451453]        CPU0
+ [ 2909.453889]        ----
+ [ 2909.456326]   lock(&(&rcul_list_lock)->rlock);
+ [ 2909.460785]   <Interrupt>
+ [ 2909.463393]     lock(&(&rcul_list_lock)->rlock);
+ [ 2909.468016] 
+ [ 2909.468016]  *** DEADLOCK ***
+ [ 2909.468016] 
+ [ 2909.473921] 1 lock held by lese.sh/28218:
+ [ 2909.477918]  #0:  (&mm->mmap_sem){++++++}, at: [<c00150d0>] do_page_fault+0x88/0x3cc
+ [ 2909.485712] 
+ [ 2909.485712] stack backtrace:
+ [ 2909.490057] Backtrace: 
+ [ 2909.492528] [<c00121a0>] (dump_backtrace+0x0/0x118) from [<c0315360>] (dump_stack+0x20/0x24)
+ [ 2909.500929]  r6:c72ce470 r5:c72ce060 r4:c069ddb4 r3:c72ce060
+ [ 2909.506643] [<c0315340>] (dump_stack+0x0/0x24) from [<c006c3f8>] (print_usage_bug+0x1c4/0x2ac)
+ [ 2909.515228] [<c006c234>] (print_usage_bug+0x0/0x2ac) from [<c006c988>] (mark_lock+0x4a8/0x630)
+ [ 2909.523816] [<c006c4e0>] (mark_lock+0x0/0x630) from [<c006d2f8>] (__lock_acquire+0x7e8/0x1cc0)
+ [ 2909.532404] [<c006cb10>] (__lock_acquire+0x0/0x1cc0) from [<c006ee9c>] (lock_acquire+0xa0/0x1dc)
+ [ 2909.541168] [<c006edfc>] (lock_acquire+0x0/0x1dc) from [<c031916c>] (_raw_spin_lock_irqsave+0x64/0xa0)
+ [ 2909.550453] [<c0319108>] (_raw_spin_lock_irqsave+0x0/0xa0) from [<bf010080>] (rcul_add_messwert+0x28/0xa8 [list_rcu])
+ [ 2909.561019]  r7:00000000 r6:bf010af8 r5:c0448ab0 r4:bf010b48
+ [ 2909.566742] [<bf010058>] (rcul_add_messwert+0x0/0xa8 [list_rcu]) from [<bf010514>] (rcul_timer_fn+0x40/0xd8 [list_rcu])
+ [ 2909.577504] [<bf0104d4>] (rcul_timer_fn+0x0/0xd8 [list_rcu]) from [<c004c4a4>] (__run_hrtimer+0x8c/0x478)
+ [ 2909.587034]  r7:00000000 r6:c0448ac0 r5:c0448ab0 r4:bf010b48
+ [ 2909.592752] [<c004c418>] (__run_hrtimer+0x0/0x478) from [<c004d520>] (hrtimer_interrupt+0x11c/0x31c)
+ [ 2909.601859] [<c004d404>] (hrtimer_interrupt+0x0/0x31c) from [<c00195d0>] (orion_timer_interrupt+0x34/0x44)
+ [ 2909.611483] [<c001959c>] (orion_timer_interrupt+0x0/0x44) from [<c007f43c>] (handle_irq_event_percpu+0x74/0x408)
+ [ 2909.621622] [<c007f3c8>] (handle_irq_event_percpu+0x0/0x408) from [<c007f81c>] (handle_irq_event+0x4c/0x6c)
+ [ 2909.631336] [<c007f7d0>] (handle_irq_event+0x0/0x6c) from [<c0081be8>] (handle_level_irq+0x9c/0x134)
+ [ 2909.640429]  r6:00000000 r5:c05aaaf8 r4:c05aaaa8 r3:00022000
+ [ 2909.646143] [<c0081b4c>] (handle_level_irq+0x0/0x134) from [<c007ecac>] (generic_handle_irq+0x38/0x54)
+ [ 2909.655410]  r5:00000001 r4:c05b92bc
+ [ 2909.659020] [<c007ec74>] (generic_handle_irq+0x0/0x54) from [<c000f14c>] (handle_IRQ+0x40/0x94)
+ [ 2909.667692] [<c000f10c>] (handle_IRQ+0x0/0x94) from [<c00084e0>] (asm_do_IRQ+0x18/0x1c)
+ [ 2909.675663]  r6:fed20200 r5:a0000013 r4:c00da9cc r3:c00150f8
+ [ 2909.681376] [<c00084c8>] (asm_do_IRQ+0x0/0x1c) from [<c000e378>] (__irq_svc+0x38/0xa0)
+ [ 2909.689265] Exception stack(0xc7295e00 to 0xc7295e48)
+ [ 2909.694311] 5e00: c70dd3e8 b6efd8b4 00000000 c70dd1f4 c723d8a0 c7294000 c7295fb0 00000017
+ [ 2909.702466] 5e20: b6efd8b4 c72ce060 00000000 c7295e5c c7295e60 c7295e48 c00150f8 c00da9cc
+ [ 2909.710614] 5e40: a0000013 ffffffff
+ [ 2909.714112] [<c00da990>] (find_vma+0x0/0xe4) from [<c00150f8>] (do_page_fault+0xb0/0x3cc)
+ [ 2909.722258]  r5:c7294000 r4:c723d8a0
+ [ 2909.725864] [<c0015048>] (do_page_fault+0x0/0x3cc) from [<c00083b0>] (do_DataAbort+0x40/0xa8)
+ [ 2909.734366] [<c0008370>] (do_DataAbort+0x0/0xa8) from [<c000e564>] (__dabt_usr+0x44/0x60)
+ [ 2909.742512] Exception stack(0xc7295fb0 to 0xc7295ff8)
+ [ 2909.747553] 5fa0:                                     00000002 00002090 b6efd0bc 000001fe
+ [ 2909.755706] 5fc0: b6f3e168 06cebac5 b6f3e06c 00016068 00000000 b6f3e030 00000001 be91562c
+ [ 2909.763860] 5fe0: 00000000 be9155f0 b6f3389c b6f33878 80000010 ffffffff
+ [ 2909.770443]  r8:00000000 r7:00016068 r6:ffffffff r5:80000010 r4:b6f33878
