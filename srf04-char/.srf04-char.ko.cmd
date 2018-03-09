@@ -1,0 +1,1 @@
+cmd_/home/nutzer31/driver/driver/srf04-char/srf04-char.ko := arm-linux-gnueabihf-ld -EL -r  -T ./scripts/module-common.lds --build-id  -o /home/nutzer31/driver/driver/srf04-char/srf04-char.ko /home/nutzer31/driver/driver/srf04-char/srf04-char.o /home/nutzer31/driver/driver/srf04-char/srf04-char.mod.o ;  true
